@@ -1,7 +1,6 @@
 package com.back.boundedContext.member.domain;
 
-import com.back.global.jpa.entity.BaseIdAndTime;
-import jakarta.persistence.Column;
+import com.back.shared.member.domain.SourceMember;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -11,21 +10,16 @@ import lombok.NoArgsConstructor;
 @Table(name = "MEMBER_MEMBER")
 @NoArgsConstructor
 @Getter
-public class Member extends BaseIdAndTime {
-    @Column(unique = true)
-    private String username;
-    private String password;
-    private String nickname;
-    private int activityScore;
+public class Member extends SourceMember {
 
     public Member(String username, String password, String nickname) {
-        this.username = username;
-        this.password = password;
-        this.nickname = nickname;
+        super(username, password, nickname);
     }
 
     // 활동 점수 증가
     public int increaseActivityScore(int amount) {
-        return this.activityScore += amount;
+        setActivityScore(getActivityScore() + amount);
+
+        return getActivityScore();
     }
 }
