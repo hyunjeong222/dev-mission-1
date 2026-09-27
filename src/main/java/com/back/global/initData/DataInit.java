@@ -42,12 +42,12 @@ public class DataInit {
     public void makeBaseMembers() {
         if (memberFacade.count() > 0) return;
 
-        Member systemMember = memberFacade.join("system", "1234", "시스템");
-        Member holdingMember = memberFacade.join("holding", "1234", "홀딩");
-        Member adminMember = memberFacade.join("admin", "1234", "관리자");
-        Member user1Member = memberFacade.join("user1", "1234", "유저1");
-        Member user2Member = memberFacade.join("user2", "1234", "유저2");
-        Member user3Member = memberFacade.join("user3", "1234", "유저3");
+        Member systemMember = memberFacade.join("system", "1234", "시스템").getData();
+        Member holdingMember = memberFacade.join("holding", "1234", "홀딩").getData();
+        Member adminMember = memberFacade.join("admin", "1234", "관리자").getData();
+        Member user1Member = memberFacade.join("user1", "1234", "유저1").getData();
+        Member user2Member = memberFacade.join("user2", "1234", "유저2").getData();
+        Member user3Member = memberFacade.join("user3", "1234", "유저3").getData();
     }
 
     @Transactional
