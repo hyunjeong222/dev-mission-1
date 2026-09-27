@@ -2,7 +2,7 @@ package com.back.global.initData;
 
 import com.back.boundedContext.member.domain.Member;
 import com.back.boundedContext.post.domain.Post;
-import com.back.boundedContext.member.app.MemberService;
+import com.back.boundedContext.member.app.MemberFacade;
 import com.back.boundedContext.post.app.PostService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -15,17 +15,17 @@ import org.springframework.context.annotation.Lazy;
 @Slf4j
 public class DataInit {
     private final DataInit self;
-    private final MemberService memberService;
+    private final MemberFacade memberFacade;
     private final PostService postService;
 
     // @Lazy : 프록시를 거쳐 호출
     public DataInit(
             @Lazy DataInit self,
-            MemberService memberService,
+            MemberFacade memberFacade,
             PostService postService
     ) {
         this.self = self;
-        this.memberService = memberService;
+        this.memberFacade = memberFacade;
         this.postService = postService;
     }
 
@@ -40,23 +40,23 @@ public class DataInit {
 
     @Transactional
     public void makeBaseMembers() {
-        if (memberService.count() > 0) return;
+        if (memberFacade.count() > 0) return;
 
-        Member systemMember = memberService.join("system", "1234", "시스템");
-        Member holdingMember = memberService.join("holding", "1234", "홀딩");
-        Member adminMember = memberService.join("admin", "1234", "관리자");
-        Member user1Member = memberService.join("user1", "1234", "유저1");
-        Member user2Member = memberService.join("user2", "1234", "유저2");
-        Member user3Member = memberService.join("user3", "1234", "유저3");
+        Member systemMember = memberFacade.join("system", "1234", "시스템");
+        Member holdingMember = memberFacade.join("holding", "1234", "홀딩");
+        Member adminMember = memberFacade.join("admin", "1234", "관리자");
+        Member user1Member = memberFacade.join("user1", "1234", "유저1");
+        Member user2Member = memberFacade.join("user2", "1234", "유저2");
+        Member user3Member = memberFacade.join("user3", "1234", "유저3");
     }
 
     @Transactional
     public void makeBasePosts() {
         if (postService.count() > 0) return;
 
-        Member user1Member = memberService.findByUsername("user1").get();
-        Member user2Member = memberService.findByUsername("user2").get();
-        Member user3Member = memberService.findByUsername("user3").get();
+        Member user1Member = memberFacade.findByUsername("user1").get();
+        Member user2Member = memberFacade.findByUsername("user2").get();
+        Member user3Member = memberFacade.findByUsername("user3").get();
 
         Post post1 = postService.write(user1Member, "제목1", "내용1");
         Post post2 = postService.write(user1Member, "제목2", "내용2");
@@ -75,9 +75,9 @@ public class DataInit {
         Post post5 = postService.findById(5).get();
         Post post6 = postService.findById(6).get();
 
-        Member user1Member = memberService.findByUsername("user1").get();
-        Member user2Member = memberService.findByUsername("user2").get();
-        Member user3Member = memberService.findByUsername("user3").get();
+        Member user1Member = memberFacade.findByUsername("user1").get();
+        Member user2Member = memberFacade.findByUsername("user2").get();
+        Member user3Member = memberFacade.findByUsername("user3").get();
 
         if (post1.hasComments()) return;
 
